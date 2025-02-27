@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Brainwave-Controlled Smart System</title>
+  
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -91,7 +92,22 @@
       <p id="cancerAlert"></p>
     </section>
   </div>
+<!-- Chatbot Section -->
+<section>
+  <h2>Chatbot</h2>
+  <div id="container" class="container">
+    <div id="chat" class="chat">
+      <div id="messages" class="messages"></div>
+      <input id="input" type="text" placeholder="Say something..." autocomplete="off" autofocus="true" />
+    </div>
+    <img src="chatbot-master/bot.png" alt="Robot cartoon" height="500vh">
+  </div>
+</section>
+</div>
 
+<script type="text/javascript" src="chatbot-master/index.js"></script>
+<script type="text/javascript" src="chatbot-master/constants.js"></script>
+<script type="text/javascript" src="chatbot-master/speech.js"></script>
   <script>
     // ---------------- EEG Signal Capturing ---------------- //
     const ctx = document.getElementById('eegChart').getContext('2d');
