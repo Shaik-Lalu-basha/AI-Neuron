@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brainwave-Controlled Smart System</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      margin: 0;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+    }
+
+    section {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+
+    #brain-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 400px;
+      width: 100%;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    button {
+      background-color: #00ffcc;
+      color: #111;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Brainwave-Controlled Smart System</h1>
+    
+    <!-- EEG Signal Capture -->
+    <section>
+      <h2>Real-Time EEG Signal Capture</h2>
+      <canvas id="eegChart"></canvas>
+    </section>
+
+   <!-- 3D Brain Scanning -->
+   <section>
+    <h2>Brain Scanning & Neural Activity</h2><br><br>
+    <div id="brain-container"></div>
+  </section>
+
+
+    <!-- Thought-to-Speech Simulation -->
+    <section>
+      <h2>Thought-to-Speech Conversion</h2>
+      <button onclick="simulateThought('Yes')">Think 'Yes'</button>
+      <button onclick="simulateThought('No')">Think 'No'</button>
+      <button onclick="simulateThought('Help')">Think 'Help'</button>
+    </section>
+
+    <!-- Brain Cancer Detection -->
+    <section>
+      <h2>Brain Cancer Detection Simulation</h2>
+      <button onclick="detectCancer()">Run Detection</button>
+      <p id="cancerAlert"></p>
+    </section>
+  </div>
+
+  <script>
+    // ---------------- EEG Signal Capturing ---------------- //
+    const ctx = document.getElementById('eegChart').getContext('2d');
+    const eegChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: Array(30).fill(''), // 30 data points (empty labels)
+        datasets: [{
+          label: 'EEG Signal',
+          data: Array(30).fill(0),
+          borderColor: '#00ffcc',
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false
+        }]
+      },
+      options: {
+        animation: false,
+        scales: {
+          x: { display: false },
+          y: { min: -2, max: 2 }
+        }
+      }
+    });
+
+    function updateEEGData() {
+      eegChart.data.datasets[0].data.shift();
+      eegChart.data.datasets[0].data.push((Math.random() * 4 - 2).toFixed(2)); // Random EEG values
+      eegChart.update();
+    }
+    
+    setInterval(updateEEGData, 200); // Update every 200ms
+
+    // ---------------- 3D Brain Scanning ---------------- //
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setSize(400, 400);
+    document.getElementById('brain-container').appendChild(renderer.domElement);
+
+    const geometry = new THREE.SphereGeometry(2, 32, 32);
+    const material = new THREE.MeshStandardMaterial({ color: 0x00ffcc, wireframe: true });
+    const brain = new THREE.Mesh(geometry, material);
+    scene.add(brain);
+
+    const light = new THREE.PointLight(0xffffff, 1, 10);
+    light.position.set(2, 2, 5);
+    scene.add(light);
+
+    const scanMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5 });
+    const scanPlane = new THREE.PlaneGeometry(4, 0.1);
+    const scanMesh = new THREE.Mesh(scanPlane, scanMaterial);
+    scanMesh.position.z = 2;
+    scene.add(scanMesh);
+
+    function scanEffect() {
+      gsap.to(scanMesh.position, { y: 2, duration: 2, repeat: -1, yoyo: true, ease: "power1.inOut" });
+    }
+    scanEffect();
+
+    camera.position.z = 5;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      brain.rotation.y += 0.02;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // ---------------- Thought-to-Speech ---------------- //
+    function simulateThought(thought) {
+      let speech = new SpeechSynthesisUtterance(thought);
+      window.speechSynthesis.speak(speech);
+      alert("Simulated Thought: " + thought);
+    }
+
+    // ---------------- Brain Cancer Detection ---------------- //
+    function detectCancer() {
+      const probability = Math.random();
+      const alertMessage = probability > 0.7 
+        ? "⚠️ High Risk of Brain Cancer Detected! Consult a doctor immediately."
+        : "✅ No significant risk detected.";
+      document.getElementById('cancerAlert').textContent = alertMessage;
+      let speech = new SpeechSynthesisUtterance(alertMessage);
+      window.speechSynthesis.speak(speech);
+    }
+  </script>
+</body>
+</html>
