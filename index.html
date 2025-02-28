@@ -80,9 +80,9 @@
     <!-- Thought-to-Speech Simulation -->
     <section>
       <h2>Thought-to-Speech Conversion</h2>
-      <button onclick="simulateThought('Yes')">Think 'Yes'</button>
-      <button onclick="simulateThought('No')">Think 'No'</button>
-      <button onclick="simulateThought('Help')">Think 'Help'</button>
+      <button onclick="simulateThought('Yes , It's Good ')">Think 'Yes'</button>
+      <button onclick="simulateThought('No , It's Alright')">Think 'No'</button>
+      <button onclick="simulateThought('I need Help')">Think 'Help'</button>
     </section>
 
     <!-- Brain Cancer Detection -->
@@ -189,7 +189,7 @@
       const probability = Math.random();
       const alertMessage = probability > 0.7 
         ? "⚠️ High Risk of Brain Cancer Detected! Consult a doctor immediately."
-        : "✅ No significant risk detected.";
+        : "✅ No significant risk detected, No problam It's Good .";
       document.getElementById('cancerAlert').textContent = alertMessage;
       let speech = new SpeechSynthesisUtterance(alertMessage);
       window.speechSynthesis.speak(speech);
